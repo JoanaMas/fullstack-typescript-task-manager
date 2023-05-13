@@ -1,13 +1,21 @@
 import React, { FC, ReactElement } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 // MUI components
 import { Avatar, Box, Typography } from '@mui/material';
 // Styles
 import * as Styled from './style';
 
-const Profile: FC = (props: any): ReactElement => {
 
-  const { name = "Joana" } = props;
+
+interface ProfileProps {
+  name: string,
+}
+
+
+
+const Profile: FC<ProfileProps> = (props): ReactElement => {
+
+  const { name } = props;
 
   return (
     <Box sx={Styled.profileContainer}>
@@ -22,8 +30,7 @@ const Profile: FC = (props: any): ReactElement => {
 export default Profile;
 
 
-// USING PROP TYPES 
-
-Profile.propTypes = {
-  name: PropTypes.string,
-};
+// USING PROP TYPES - prop types will throw error message in JS if types are not correct
+// Profile.propTypes = {
+//   name: PropTypes.string.isRequired,
+// };
