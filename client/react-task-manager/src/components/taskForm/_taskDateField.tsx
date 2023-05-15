@@ -1,16 +1,22 @@
-import React, { FC, ReactElement, useState} from 'react';
+import React, { FC, ReactElement } from 'react';
 // MUI
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import { TextField } from '@mui/material';
 // import { AutocompleteRenderInputParams } from '@mui/material';
+// Interfaces
+import { DateFieldProps } from './interfaces/DateField';
 
 
+// DYNAMIC COMPONENT
+const TaskDateField: FC<DateFieldProps> = (props): ReactElement => {
 
-const TaskDateField: FC = (): ReactElement => {
-
-    const [date, setDate] = useState<Date | null>(null);
+    const { 
+      value = new Date(),
+      disabled = false,
+      onChange = (data) => console.log(data)
+    } = props;
 
   return (
     <>
@@ -18,8 +24,9 @@ const TaskDateField: FC = (): ReactElement => {
         <DesktopDatePicker
           label="Task Date"
           format="dd/MM/yyyy"
-          value={date}
-          onChange={(newValue) => setDate(newValue)}
+          value={value}
+          onChange={onChange}
+          disabled={disabled}
           sx={{ width: "100%"}}
           // renderInput={(params: AutocompleteRenderInputParams) => (
           //   <TextField {...params} 
