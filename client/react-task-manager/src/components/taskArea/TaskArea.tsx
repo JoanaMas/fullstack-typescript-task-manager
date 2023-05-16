@@ -3,6 +3,7 @@ import React, { FC, ReactElement } from 'react';
 import { Grid, Box } from '@mui/material';
 // Components
 import TaskCounter from '../taskCounter/TaskCounter';
+import TaskCard from '../taskCard/TaskCard';
 // Date formatter
 import { format } from 'date-fns';
 // Enum
@@ -41,10 +42,10 @@ const TaskArea: FC = (): ReactElement => {
 
         <Grid item sx={Styled.TaskGridStyle} xs={10} md={8}>
 
-          <Box>Task Cards</Box>
-          <Box>Task Cards</Box>
-          <Box>Task Cards</Box>
-
+          <TaskCard />
+          <TaskCard />
+          <TaskCard />
+          
         </Grid>
 
 

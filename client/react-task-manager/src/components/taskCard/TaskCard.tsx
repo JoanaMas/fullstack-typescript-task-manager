@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { FC, ReactElement } from 'react';
+// MUI components
+import { Box } from '@mui/material';
+// Components
+import TaskHeader from './_taskHeader';
+// Styles
+import * as Styled from './style';
 
-const TaskCard = () => {
+const TaskCard: FC = (): ReactElement => {
   return (
-    <div>TaskCard</div>
+    <Box sx={Styled.tasksCardContainerStyle}>
+        <TaskHeader />
+    </Box>
   );
 };
 
