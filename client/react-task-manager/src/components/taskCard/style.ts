@@ -8,7 +8,6 @@ export const tasksCardContainerStyle = {
     backgroundColor: "background.paper",
     borderRadius: "10px",
     border: "2px solid",
-    borderColor: "warning.light",
 };
 
 export const taskHeaderContainer = {
@@ -16,4 +15,11 @@ export const taskHeaderContainer = {
     width: "100%",
     justifyContent: "space-between",
     marginBottom: "20px",
+};
+
+export const taskFooterContainer = {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: "20px",
 };

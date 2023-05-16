@@ -1,20 +1,27 @@
 import React, { FC, ReactElement } from 'react';
 // MUI components
 import { Box, Chip, Typography } from '@mui/material';
+// Interfaces
+import { TaskHeaderProps } from './interfaces/taskHeader';
+// Date formatter
+import { format } from 'date-fns';
 // Styles
 import * as Styled from './style';
 
-const TaskHeader: FC = (): ReactElement => {
+const TaskHeader: FC<TaskHeaderProps> = (props): ReactElement => {
+
+    const { title, dueDate} = props;
+
   return (
     <Box sx={Styled.taskHeaderContainer}>
 
         <Box>
-            <Typography variant="h5">This is a test title</Typography>
+            <Typography variant="h5">{title}</Typography>
         </Box>
 
 
         <Box>
-            <Chip variant='outlined' label="16 May, 2023"/>
+            <Chip variant='outlined' label={format(dueDate, "PPP")}/>
         </Box>
 
 
