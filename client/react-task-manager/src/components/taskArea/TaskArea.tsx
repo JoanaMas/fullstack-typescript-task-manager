@@ -5,8 +5,11 @@ import { Grid, Box } from '@mui/material';
 import TaskCounter from '../taskCounter/TaskCounter';
 // Date formatter
 import { format } from 'date-fns';
+// Enum
+import { Status } from '../taskForm/enums/Status';
 // Styles
 import * as Styled from './style';
+
 
 const TaskArea: FC = (): ReactElement => {
   return (
@@ -28,11 +31,10 @@ const TaskArea: FC = (): ReactElement => {
 
         <Grid item sx={Styled.CounterGridStyle} md={10} xs={12}>
 
-          <TaskCounter />
-          <TaskCounter />
-          <TaskCounter />
+          <TaskCounter count={2} taskStatus={Status.todo} />
+          <TaskCounter count={10} taskStatus={Status.inProgress} />
+          <TaskCounter count={5} taskStatus={Status.completed}/>
           
-
         </Grid>
 
         {/* TASKS */}

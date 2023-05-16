@@ -11,7 +11,6 @@ export const avatarStyle = {
     width: "100px",
     height: "100px",
     marginBottom: "16px",
-    borderColor: "warning.light",
 };
 
 export const taskCounterSubtitleStyle = {
