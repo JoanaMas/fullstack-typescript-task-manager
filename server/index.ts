@@ -1,10 +1,12 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express } from 'express';
 import { DataSource } from 'typeorm';
 import dontev from 'dotenv';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 // Entities
 import { Task } from './src/tasks/tasks.entity';
+// Routers
+import { tasksRouter } from './src/tasks/tasks.router';
 
 
 const app: Express = express();
@@ -30,13 +32,6 @@ export const AppDataSource = new DataSource({
     synchronize: true,
 });
 
-
-// Default route
-app.get('/', (req: Request, res: Response) => {
-    res.send('Express + TypeScript Server');
-});
-
-
 AppDataSource.initialize().then(() => {
     app.listen(port);
     console.log('Data Source has benn initialized');
@@ -44,3 +39,4 @@ AppDataSource.initialize().then(() => {
     console.error("Error during Data Source initialization", err);
 });
 
+app.use("/", tasksRouter);
