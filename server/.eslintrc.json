@@ -20,6 +20,7 @@
         "prettier"
     ],
     "rules": {
+        "semi": "error"
     },
     "settings": {
         "import/resolver": {
