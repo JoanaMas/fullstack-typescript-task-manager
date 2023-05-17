@@ -41,6 +41,4 @@ export class Task {
         default: Status.todo
     })
     status: Status;
-
-
 }

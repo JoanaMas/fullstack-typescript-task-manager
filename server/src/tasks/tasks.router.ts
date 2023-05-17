@@ -1,8 +1,11 @@
-import { Request, Response, Router } from 'express';
+import { Router } from 'express';
+// Controller
+import TasksController from './tasks.controller';
+// Task validator
+import { taskValidator } from './tasks.validator';
 
 export const tasksRouter: Router = Router();
 
-// Default route
-tasksRouter.get('/tasks', (req: Request, res: Response) => {
-    res.send('Express + TypeScript Server');
-});
+// Router
+tasksRouter.get('/tasks', TasksController.getAllTasks);
+tasksRouter.post('/tasks', taskValidator, TasksController.postTask);
