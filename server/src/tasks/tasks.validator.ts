@@ -36,3 +36,23 @@ export const taskValidator: ValidationChain[] = [
 
 ];
 
+export const updateTaskValidator = [
+
+    body('id')
+    .not()
+    .isEmpty()
+    .withMessage('The task id is mandatory')
+    .trim()
+    .isString()
+    .withMessage('Id format is not correct'),
+
+    body('status')
+    .trim()
+    .isIn([
+        Status.todo,
+        Status.inProgress,
+        Status.completed
+    ])
+    .withMessage('Please select status from given values'),
+
+];

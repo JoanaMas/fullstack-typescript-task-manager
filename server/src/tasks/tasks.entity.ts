@@ -1,12 +1,13 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 import { Priority } from "../enums/Priority";
 import { Status } from "../enums/Status";
-// import { Status } from "../enums/Status";
 
 @Entity()
 export class Task {
-    @PrimaryGeneratedColumn('uuid')
+
+    @PrimaryGeneratedColumn()
     id: string;
+
 
     @Column({
         type: "text"
@@ -15,7 +16,7 @@ export class Task {
 
 
     @Column({
-        type: 'varchar',
+        type: "varchar",
         length: 255,
     })
     date: string;
