@@ -1,10 +1,19 @@
 import express, { Express, Request, Response } from 'express';
-import dontev from 'dotenv';
 import { DataSource } from 'typeorm';
+import dontev from 'dotenv';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+// Entities
+import { Task } from './src/tasks/tasks.entity';
 
 
 const app: Express = express();
 dontev.config();
+
+// Middlewares: streamline incoming requests, no cross origin errors, body parser will convert json form request to js object and attach it to request as body property.
+app.use(bodyParser.json());
+app.use(cors());
+
 
 // Server port + port fetched from env file
 const port = process.env.PORT;
@@ -17,6 +26,7 @@ export const AppDataSource = new DataSource({
     username: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DB,
+    entities: [Task],
     synchronize: true,
 });
 
