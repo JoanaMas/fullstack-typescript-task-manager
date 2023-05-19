@@ -8,8 +8,8 @@ import TaskFooter from './_taskFooter';
 // Interfaces
 import { TaskCardProps } from './interfaces/TaskCard';
 // Enum
-// import { Status } from '../taskForm/enums/Status';
-// import { Priority } from '../taskForm/enums/Priority';
+import { Status } from '../taskForm/enums/Status';
+import { Priority } from '../taskForm/enums/Priority';
 // Helpers
 import { changeTaskBorderColorByPriority } from './helpers/borderColorChange';
 // Styles
@@ -22,10 +22,11 @@ const TaskCard: FC<TaskCardProps> = (
     title = 'Test Title',
     date = new Date(),
     description = 'Description text',
-    priority,
-    // status = Status.completed,
+    priority = Priority.low,
+    status = Status.todo,
     onStatusChange = (e) => console.log(e),
     onClick = (e) => console.log(e),
+    id,
   } = props;
 
   return (
@@ -35,6 +36,8 @@ const TaskCard: FC<TaskCardProps> = (
       <TaskFooter
         onStatusChange={onStatusChange}
         onClick={onClick}
+        id={id}
+        status={status}
       />
     </Box>
   );

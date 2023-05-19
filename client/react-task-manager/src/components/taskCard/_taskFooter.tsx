@@ -15,6 +15,8 @@ const TaskFooter: FC<TaskFooterProps> = (
   props,
 ): ReactElement => {
   const { 
+    id,
+    status,
     onStatusChange,
     onClick
 } =

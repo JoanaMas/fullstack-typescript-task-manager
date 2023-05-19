@@ -37,17 +37,22 @@ const TaskForm: FC = (): ReactElement => {
   const [error, setError] = useState<string | null>(null);
   const [open, setOpen] = useState<boolean>(false);
 
-  const mutation = useMutation(
+
+  const createTaskMutation = useMutation(
     (newTask: CreateTaskProps) => {
       return axios.post(
         'http://localhost:4500/tasks',
         newTask,
       );
     },
+    {
+      onSuccess: () => {
+        console.log('success');
+      }
+    }
   );
 
   const createTask = () => {
-
     setOpen(true);
 
     if (!title || !date || !description) {
@@ -67,15 +72,19 @@ const TaskForm: FC = (): ReactElement => {
       priority,
     };
 
-    mutation.mutate(task);
+    createTaskMutation.mutate(task);
   };
 
   return (
     <Box sx={Styled.taskFormContainer}>
       {/* ALERT COMPONENT */}
 
-      <Box sx={{ display: open ? "flex" : "none" , width: "100%"}}>
-
+      <Box
+        sx={{
+          display: open ? 'flex' : 'none',
+          width: '100%',
+        }}
+      >
         {error ? (
           <AlertMessage
             severity="error"
@@ -96,13 +105,16 @@ const TaskForm: FC = (): ReactElement => {
       </Typography>
       <TaskTitleField
         onChange={(e) => setTitle(e.target.value)}
+        disabled={createTaskMutation.isLoading}
       />
       <TaskDescriptionField
         onChange={(e) => setDescription(e.target.value)}
+        disabled={createTaskMutation.isLoading}
       />
       <TaskDateField
         value={date}
         onChange={(date) => setDate(date)}
+        disabled={createTaskMutation.isLoading}
       />
 
       <Stack
@@ -116,6 +128,7 @@ const TaskForm: FC = (): ReactElement => {
           name="status"
           value={status}
           onChange={(e) => setStatus(e.target.value)}
+          disabled={createTaskMutation.isLoading}
           items={[
             {
               value: Status.todo,
@@ -134,6 +147,7 @@ const TaskForm: FC = (): ReactElement => {
           name="priority"
           value={priority}
           onChange={(e) => setPriority(e.target.value)}
+          disabled={createTaskMutation.isLoading}
           items={[
             {
               value: Priority.low,

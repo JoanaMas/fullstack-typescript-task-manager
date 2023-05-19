@@ -10,3 +10,8 @@ export const TaskGridStyle = {
     display: "flex",
     flexDirection: "column",
 };
+
+export const alertMessageContainer = {
+    width: "100%",
+    marginBottom: "50px",
+};

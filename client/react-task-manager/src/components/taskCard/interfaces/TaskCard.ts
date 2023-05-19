@@ -8,7 +8,5 @@ export interface TaskCardProps
     extends TaskHeaderProps,
     TaskDescriptionProps,
     TaskFooterProps {
-        id?: string;
         priority?: string;
-        status?: string;
     }
