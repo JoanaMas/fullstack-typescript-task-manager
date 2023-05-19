@@ -1,5 +1,5 @@
 // Interfaces
-import { TaskHeaderProps } from "./taskHeader";
+import { TaskHeaderProps } from "./TaskHeader";
 import { TaskDescriptionProps } from "./TaskDescription";
 import { TaskFooterProps } from "./TaskFooter";
 

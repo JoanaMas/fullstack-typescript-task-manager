@@ -25,7 +25,7 @@ const TaskFooter: FC<TaskFooterProps> = (
       <FormControlLabel
         control={
         <Switch color="warning"
-        onChange={(e) => onStatusChange(e)}
+        onChange={onStatusChange}
         />}
         label="In Progress"
       />
@@ -35,7 +35,7 @@ const TaskFooter: FC<TaskFooterProps> = (
         color="success"
         size="small"
         sx={{ color: '#ffffff' }}
-        onClick={(e) => onClick(e)}
+        onClick={onClick}
       >
         Mark Complete
       </Button>

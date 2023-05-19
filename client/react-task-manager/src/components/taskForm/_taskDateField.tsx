@@ -3,8 +3,6 @@ import React, { FC, ReactElement } from 'react';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { TextField } from '@mui/material';
-// import { AutocompleteRenderInputParams } from '@mui/material';
 // Interfaces
 import { DateFieldProps } from './interfaces/DateField';
 
@@ -28,10 +26,6 @@ const TaskDateField: FC<DateFieldProps> = (props): ReactElement => {
           onChange={onChange}
           disabled={disabled}
           sx={{ width: "100%"}}
-          // renderInput={(params: AutocompleteRenderInputParams) => (
-          //   <TextField {...params} 
-          //   />
-          // )}
         />
       </LocalizationProvider>
     </>

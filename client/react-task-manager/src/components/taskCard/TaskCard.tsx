@@ -20,7 +20,7 @@ const TaskCard: FC<TaskCardProps> = (
 ): ReactElement => {
   const {
     title = 'Test Title',
-    dueDate = new Date(),
+    date = new Date(),
     description = 'Description text',
     priority,
     // status = Status.completed,
@@ -30,7 +30,7 @@ const TaskCard: FC<TaskCardProps> = (
 
   return (
     <Box sx={{...Styled.tasksCardContainerStyle, borderColor: `${changeTaskBorderColorByPriority(priority)}`}}>
-      <TaskHeader title={title} dueDate={dueDate} />
+      <TaskHeader title={title} date={date} />
       <TaskDescription description={description} />
       <TaskFooter
         onStatusChange={onStatusChange}

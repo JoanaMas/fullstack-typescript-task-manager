@@ -1,4 +1,4 @@
 export interface TaskHeaderProps {
-    title: string;
-    dueDate: Date;
+    title?: string;
+    date?: Date;
 }

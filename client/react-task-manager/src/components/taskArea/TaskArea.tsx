@@ -6,13 +6,25 @@ import TaskCounter from '../taskCounter/TaskCounter';
 import TaskCard from '../taskCard/TaskCard';
 // Date formatter
 import { format } from 'date-fns';
+// Interfaces
+import { TaskCardProps } from '../taskCard/interfaces/TaskCard';
 // Enum
 import { Status } from '../taskForm/enums/Status';
 // Styles
 import * as Styled from './style';
+// Axios requests
+import { getTasks } from '../../api/axios';
+// React Query
+import { useQuery } from 'react-query';
 
 
 const TaskArea: FC = (): ReactElement => {
+
+  const { isLoading, isError, data: tasks } = useQuery('tasks', getTasks);
+
+  if(isLoading) return <p>Is loading...</p>;
+  if(isError) return <p>Error occured</p>;
+
   return (
     <Grid item md={8} px={4}>
       {/* CURRENT DATE */}
@@ -41,10 +53,16 @@ const TaskArea: FC = (): ReactElement => {
         {/* TASKS */}
 
         <Grid item sx={Styled.TaskGridStyle} xs={10} md={8}>
-
-          <TaskCard />
-          <TaskCard />
-          <TaskCard />
+          {tasks.map((item: TaskCardProps) => (
+            <TaskCard 
+            key={item.id}
+            title={item.title}
+            description={item.description}
+            date={new Date(`${item.date}`)}
+            status={item.status}
+            priority={item.priority}
+            />
+          ))}
           
         </Grid>
 

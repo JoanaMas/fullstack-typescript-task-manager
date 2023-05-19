@@ -95,7 +95,7 @@ const updateTask = async (
     task = await AppDataSource.getRepository(Task).findOne({
       where: { id: req.body.id },
     });
-    console.log(task);
+
   } catch (_error) {
     return res
       .status(500)
@@ -123,7 +123,6 @@ const updateTask = async (
     );
 
     updatedTask = instanceToPlain(updatedTask) as UpdateResult;
-
     return res.status(200).send(updatedTask);
 
   } catch (_error) {

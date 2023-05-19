@@ -2,15 +2,18 @@ import React, { FC, ReactElement } from 'react';
 // MUI components
 import { Box, Chip, Typography } from '@mui/material';
 // Interfaces
-import { TaskHeaderProps } from './interfaces/taskHeader';
+import { TaskHeaderProps } from './interfaces/TaskHeader';
 // Date formatter
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 // Styles
 import * as Styled from './style';
 
+
 const TaskHeader: FC<TaskHeaderProps> = (props): ReactElement => {
 
-    const { title, dueDate} = props;
+  const { title, date = new Date() } = props;
+
+  const formattedDate = date && isValid(date) ? format(date, "PPP"): '';
 
   return (
     <Box sx={Styled.taskHeaderContainer}>
@@ -21,7 +24,7 @@ const TaskHeader: FC<TaskHeaderProps> = (props): ReactElement => {
 
 
         <Box>
-            <Chip variant='outlined' label={format(dueDate, "PPP")}/>
+            <Chip variant='outlined' label={formattedDate}/>
         </Box>
 
 

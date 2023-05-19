@@ -8,3 +8,8 @@ export const taskFormContainer = {
     marginTop: "20px",
     padding: "30px",
 };
+
+export const taskFormAlert = {
+    width: '100%',
+    marginBotton: '20px',
+};
