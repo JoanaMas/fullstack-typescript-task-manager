@@ -1,5 +1,5 @@
 import { SelectChangeEvent } from "@mui/material";
-import { DisabledProps } from "./DisabledInterface";
+import { DisabledProps } from "./Disabled";
 
 export interface SelectItemsProps {
     value: string;

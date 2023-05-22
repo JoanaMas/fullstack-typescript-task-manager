@@ -1,4 +1,4 @@
-import { DisabledProps } from "./DisabledInterface";
+import { DisabledProps } from "./Disabled";
 
 export interface DateFieldProps extends DisabledProps {
     value?: Date | null;

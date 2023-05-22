@@ -1,5 +1,5 @@
 import React from "react";
-import { DisabledProps } from "./DisabledInterface";
+import { DisabledProps } from "./Disabled";
 
 export interface TextFieldProps extends DisabledProps {
     onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;

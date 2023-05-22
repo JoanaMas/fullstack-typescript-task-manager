@@ -8,6 +8,8 @@ import {
 } from '@mui/material';
 // Interfaces
 import { TaskFooterProps } from './interfaces/TaskFooter';
+// Enums
+import { Status } from '../taskForm/enums/Status';
 // Styles
 import * as Styled from './style';
 
@@ -27,7 +29,8 @@ const TaskFooter: FC<TaskFooterProps> = (
       <FormControlLabel
         control={
         <Switch color="warning"
-        onChange={onStatusChange}
+        onChange={(e) => onStatusChange(e, id)}
+        defaultChecked={status === Status.inProgress}
         />}
         label="In Progress"
       />
@@ -37,7 +40,7 @@ const TaskFooter: FC<TaskFooterProps> = (
         color="success"
         size="small"
         sx={{ color: '#ffffff' }}
-        onClick={onClick}
+        onClick={(e) => onClick(e, id)}
       >
         Mark Complete
       </Button>

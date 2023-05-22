@@ -9,6 +9,7 @@ import AlertMessage from '../taskForm/_alertMessage';
 import { format } from 'date-fns';
 // Interfaces
 import { TaskCardProps } from '../taskCard/interfaces/TaskCard';
+import { UpdateTaskProps } from '../taskForm/interfaces/UpdateTask';
 // Enum
 import { Status } from '../taskForm/enums/Status';
 // Styles
@@ -16,17 +17,31 @@ import * as Styled from './style';
 // Axios requests
 import { getTasks } from '../../api/axios';
 // React Query
-import { useQuery } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 import { IndexKind } from 'typescript';
+import axios from 'axios';
 
 const TaskArea: FC = (): ReactElement => {
+
   const {
     isLoading,
     isError,
     data: tasks,
   } = useQuery('tasks', getTasks);
 
+  const updateTaskStatusMutation = useMutation((updatedTask: UpdateTaskProps) => {
+    return axios.put(`http://localhost:4500/tasks`, updatedTask);
+  });
+
+  const onStatusChangeHandler = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
+    updateTaskStatusMutation.mutate({
+      id,
+      status: e.target.checked ? Status.inProgress : Status.todo
+    });
+  };
+
   if (isLoading) return <p>Is loading...</p>;
+
 
   return (
     <Grid item md={8} px={4}>
@@ -87,6 +102,7 @@ const TaskArea: FC = (): ReactElement => {
                   date={new Date(`${item.date}`)}
                   status={item.status}
                   priority={item.priority}
+                  onStatusChange={onStatusChangeHandler}
                 />
               );
             }

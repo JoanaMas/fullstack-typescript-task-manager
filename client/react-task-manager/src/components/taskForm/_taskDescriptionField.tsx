@@ -1,7 +1,7 @@
 import React, { FC, ReactElement } from 'react';
 import { TextField } from '@mui/material';
 // Interfaces
-import { TextFieldProps } from './interfaces/TextFieldInterface';
+import { TextFieldProps } from './interfaces/TextField';
 
 
 // DYNAMIC COMPONENT
