@@ -20,28 +20,74 @@ import { getTasks } from '../../api/axios';
 import { useQuery, useMutation } from 'react-query';
 import { IndexKind } from 'typescript';
 import axios from 'axios';
+import id from 'date-fns/esm/locale/id/index.js';
 
 const TaskArea: FC = (): ReactElement => {
-
   const {
     isLoading,
     isError,
     data: tasks,
   } = useQuery('tasks', getTasks);
 
-  const updateTaskStatusMutation = useMutation((updatedTask: UpdateTaskProps) => {
-    return axios.put(`http://localhost:4500/tasks`, updatedTask);
-  });
+  const updateTaskStatusMutation = useMutation(
+    (updatedTask: UpdateTaskProps) => {
+      return axios.put(
+        `http://localhost:4500/tasks`,
+        updatedTask,
+      );
+    },
+  );
 
-  const onStatusChangeHandler = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
+  const onStatusChangeHandler = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    id: string,
+  ) => {
     updateTaskStatusMutation.mutate({
       id,
-      status: e.target.checked ? Status.inProgress : Status.todo
+      status: e.target.checked
+        ? Status.inProgress
+        : Status.todo,
     });
   };
 
-  if (isLoading) return <p>Is loading...</p>;
+  const markTaskAsCompleted = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    id: string,
+  ) => {
+    updateTaskStatusMutation.mutate({
+      id,
+      status: Status.completed,
+    });
+  };
 
+  
+  // HELPER FUNCTION
+  const checkIfAllTasksCompleted = () => {
+    if (tasks && tasks.length > 0) {
+      return tasks.every(
+        (task: TaskCardProps) =>
+          task.status === Status.completed,
+      );
+    }
+  };
+
+  // COUNTER FUNCTION
+  const taskCounter = () => {
+  
+    if(tasks && tasks.length > 0) {
+      const todoCounter = tasks.filter((task: TaskCardProps) => task.status === Status.todo);
+      const inProgressCounter = tasks.filter((task: TaskCardProps) => task.status === Status.inProgress);
+      const completedCounter = tasks.filter((task: TaskCardProps) => task.status === Status.completed);
+      return [todoCounter, inProgressCounter, completedCounter];
+    }
+    return [[], [], []];
+  };
+
+  // DESTRUCTURIZATION
+  const [todo, inProgress, completed] = taskCounter();
+
+
+  if (isLoading) return <p>Is loading...</p>;
 
   return (
     <Grid item md={8} px={4}>
@@ -61,15 +107,15 @@ const TaskArea: FC = (): ReactElement => {
         {/* COUNTERS */}
 
         {/* ALERT MESSAGE */}
-        {isError && 
-        <Box sx={Styled.alertMessageContainer}>
+        {isError && (
+          <Box sx={Styled.alertMessageContainer}>
             <AlertMessage
               severity="error"
               messageTitle="Error"
               messageText="There was an error fetching your tasks "
             />
-        </Box>
-        }
+          </Box>
+        )}
 
         <Grid
           item
@@ -77,38 +123,45 @@ const TaskArea: FC = (): ReactElement => {
           md={10}
           xs={12}
         >
-          <TaskCounter count={2} taskStatus={Status.todo} />
+          <TaskCounter count={todo.length} taskStatus={Status.todo} />
           <TaskCounter
-            count={10}
+            count={inProgress.length}
             taskStatus={Status.inProgress}
           />
           <TaskCounter
-            count={5}
+            count={completed.length}
             taskStatus={Status.completed}
           />
         </Grid>
 
         {/* TASKS */}
 
+        {checkIfAllTasksCompleted() ? <Box>No tasks available</Box> : 
         <Grid item sx={Styled.TaskGridStyle} xs={10} md={8}>
-          {tasks.map((item: TaskCardProps, index: IndexKind) => {
-            if(item.status === Status.inProgress || item.status === Status.todo) {
-              return  (
-                <TaskCard
-                  key={index}
-                  id={item.id}
-                  title={item.title}
-                  description={item.description}
-                  date={new Date(`${item.date}`)}
-                  status={item.status}
-                  priority={item.priority}
-                  onStatusChange={onStatusChangeHandler}
-                />
-              );
-            }
-          }
-         )}
+          {tasks.map(
+            (item: TaskCardProps, index: IndexKind) => {
+              if (
+                item.status === Status.inProgress ||
+                item.status === Status.todo
+              ) {
+                return (
+                  <TaskCard
+                    key={index}
+                    id={item.id}
+                    title={item.title}
+                    description={item.description}
+                    date={new Date(`${item.date}`)}
+                    status={item.status}
+                    priority={item.priority}
+                    onStatusChange={onStatusChangeHandler}
+                    onClick={markTaskAsCompleted}
+                  />
+                );
+              }
+            },
+          )}
         </Grid>
+        }
       </Grid>
     </Grid>
   );
