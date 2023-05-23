@@ -1,6 +1,6 @@
 import React, { FC, ReactElement } from 'react';
 // MUI components
-import { Grid, Box } from '@mui/material';
+import { Grid, Box, Typography } from '@mui/material';
 // Components
 import TaskCounter from '../taskCounter/TaskCounter';
 import TaskCard from '../taskCard/TaskCard';
@@ -17,12 +17,18 @@ import * as Styled from './style';
 // Axios requests
 import { getTasks } from '../../api/axios';
 // React Query
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { IndexKind } from 'typescript';
 import axios from 'axios';
-import id from 'date-fns/esm/locale/id/index.js';
+// Helper functions
+import { checkIfAllTasksCompleted } from './helpers/findAllCompletedTasks';
+import { taskCounter } from './helpers/tasksCounter';
+
 
 const TaskArea: FC = (): ReactElement => {
+
+  const queryClient = useQueryClient();
+
   const {
     isLoading,
     isError,
@@ -47,7 +53,13 @@ const TaskArea: FC = (): ReactElement => {
       status: e.target.checked
         ? Status.inProgress
         : Status.todo,
-    });
+    },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries('tasks');
+        }
+      }
+    );
   };
 
   const markTaskAsCompleted = (
@@ -57,37 +69,21 @@ const TaskArea: FC = (): ReactElement => {
     updateTaskStatusMutation.mutate({
       id,
       status: Status.completed,
-    });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('tasks');
+      }
+    }
+    );
   };
 
   
-  // HELPER FUNCTION
-  const checkIfAllTasksCompleted = () => {
-    if (tasks && tasks.length > 0) {
-      return tasks.every(
-        (task: TaskCardProps) =>
-          task.status === Status.completed,
-      );
-    }
-  };
-
-  // COUNTER FUNCTION
-  const taskCounter = () => {
-  
-    if(tasks && tasks.length > 0) {
-      const todoCounter = tasks.filter((task: TaskCardProps) => task.status === Status.todo);
-      const inProgressCounter = tasks.filter((task: TaskCardProps) => task.status === Status.inProgress);
-      const completedCounter = tasks.filter((task: TaskCardProps) => task.status === Status.completed);
-      return [todoCounter, inProgressCounter, completedCounter];
-    }
-    return [[], [], []];
-  };
-
-  // DESTRUCTURIZATION
-  const [todo, inProgress, completed] = taskCounter();
-
+  // DESTRUCTURIZATION FOR STATUS COUNTERS
+  const [todo, inProgress, completed] = taskCounter(tasks);
 
   if (isLoading) return <p>Is loading...</p>;
+
 
   return (
     <Grid item md={8} px={4}>
@@ -136,7 +132,7 @@ const TaskArea: FC = (): ReactElement => {
 
         {/* TASKS */}
 
-        {checkIfAllTasksCompleted() ? <Box>No tasks available</Box> : 
+        {checkIfAllTasksCompleted(tasks) ? <Typography variant='h5'>No tasks created yet</Typography> : 
         <Grid item sx={Styled.TaskGridStyle} xs={10} md={8}>
           {tasks.map(
             (item: TaskCardProps, index: IndexKind) => {

@@ -1,4 +1,6 @@
 import React, { FC, ReactElement, useState } from 'react';
+// Axios requests
+import axios from 'axios';
 // MUI components
 import {
   Box,
@@ -20,12 +22,13 @@ import { CreateTaskProps } from '../taskArea/interfaces/CreateTask';
 // Styles
 import * as Styled from './style';
 // React Query
-import { useMutation } from 'react-query';
-// Axios requests
-import axios from 'axios';
+import { useMutation, useQueryClient, useQuery } from 'react-query';
+import { getTasks } from '../../api/axios';
+
 
 // DYNAMIC COMPONENT
 const TaskForm: FC = (): ReactElement => {
+
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] =
     useState<string>('');
@@ -37,6 +40,8 @@ const TaskForm: FC = (): ReactElement => {
   const [error, setError] = useState<string | null>(null);
   const [open, setOpen] = useState<boolean>(false);
 
+  const queryClient = useQueryClient();
+  const { refetch } = useQuery('tasks', getTasks);
 
   const createTaskMutation = useMutation(
     (newTask: CreateTaskProps) => {
@@ -47,7 +52,7 @@ const TaskForm: FC = (): ReactElement => {
     },
     {
       onSuccess: () => {
-        console.log('success');
+        queryClient.invalidateQueries('tasks');
       }
     }
   );
@@ -73,6 +78,7 @@ const TaskForm: FC = (): ReactElement => {
     };
 
     createTaskMutation.mutate(task);
+    refetch();
   };
 
   return (
